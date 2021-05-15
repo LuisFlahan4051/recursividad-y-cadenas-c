@@ -209,7 +209,7 @@ int busqueda_lineal(int arreglo[], int tamanio, int buscarNumero, int posicionIn
     return posicionInicial;
 
     if (posicionInicial >= tamanio - 1)
-    return 0;
+    return -1;
     
     busqueda_lineal(arreglo, tamanio, buscarNumero, ++posicionInicial);
 }
@@ -227,21 +227,66 @@ void programa5(){
     int buscarNumero = 0;
     scanf("%d",&buscarNumero);
 
-    printf(ANSI_COLOR_MAGENTA"\nEl numero fue encontrado en la posición:"ANSI_COLOR_RESET); 
-    printf(" %d\n", busqueda_lineal(arreglo,tamanio,buscarNumero,0));
-
+    if (busqueda_lineal(arreglo, tamanio, buscarNumero, 0) >= 0){
+        printf(ANSI_COLOR_MAGENTA "\nEl numero fue encontrado en la posición:" ANSI_COLOR_RESET);
+        printf(" %d\n", busqueda_lineal(arreglo, tamanio, buscarNumero, 0));
+    }else{
+        printf(ANSI_COLOR_RED"\n¡El número no existe en el arreglo!\n"ANSI_COLOR_RESET);
+    }
+    
     printf(ANSI_COLOR_MAGENTA "\nArreglo ordenado:\n" ANSI_COLOR_RESET);
     quickSort(arreglo,0,tamanio-1);
     impresion_arreglo_recursivo(arreglo, tamanio, 0);
     printf("\n");
 
-    printf(ANSI_COLOR_MAGENTA "\nEl numero fue encontrado en la posición:" ANSI_COLOR_RESET);
-    printf(" %d\n", busqueda_lineal(arreglo, tamanio, buscarNumero, 0));
-    
+    if (busqueda_lineal(arreglo, tamanio, buscarNumero, 0) >= 0){
+        printf(ANSI_COLOR_MAGENTA "\nEl numero fue encontrado en la posición:" ANSI_COLOR_RESET);
+        printf(" %d\n", busqueda_lineal(arreglo, tamanio, buscarNumero, 0));
+    }else{
+        printf(ANSI_COLOR_RED "\n¡El número no existe en el arreglo ordenado!\n" ANSI_COLOR_RESET);
+    }
+}
+
+int busqueda_binaria(int arreglo[], int tamanio, int buscarNumero, int posicionInicial){
+    if (buscarNumero > arreglo[(posicionInicial + tamanio) / 2]){
+        busqueda_binaria(arreglo, tamanio, buscarNumero, ((posicionInicial + tamanio) / 2)+1);
+    }else if (buscarNumero < arreglo[(posicionInicial + tamanio) / 2]){
+        busqueda_binaria(arreglo, (posicionInicial + tamanio) / 2, buscarNumero, posicionInicial);
+    }else if(buscarNumero == arreglo[(posicionInicial + tamanio) / 2]){
+        return ((posicionInicial + tamanio) / 2);
+    }
+}
+
+void llenar_datos_rango(int arreglo[],int tamanio, int valorInicial){
+    for (int i = 0; i < tamanio; i++)
+    {
+        arreglo[i] = valorInicial;
+        valorInicial++; 
+    }
 }
 
 void programa6(){
+    int tamanio = 11;
+    int arreglo[tamanio];
+    printf(ANSI_COLOR_YELLOW"\nIngrese el valor inicial del arreglo:\n> "ANSI_COLOR_RESET);
+    int valorInicial = 0;
+    scanf("%d",&valorInicial);
+    llenar_datos_rango(arreglo,tamanio,valorInicial);
 
+    printf(ANSI_COLOR_MAGENTA "\nArreglo original:\n" ANSI_COLOR_RESET);
+    impresion_arreglo_recursivo(arreglo, tamanio, 0);
+    printf("\n");
+
+    printf(ANSI_COLOR_YELLOW"\nIngrese el número a buscar:\n> "ANSI_COLOR_RESET);
+    int buscarNumero = 0;
+    scanf("%d",&buscarNumero);
+
+    if((buscarNumero>=valorInicial)&&(buscarNumero<=(valorInicial+tamanio-1))){
+        printf(ANSI_COLOR_MAGENTA "\nNúmero se encuentra en la posición: " ANSI_COLOR_RESET);
+        printf("%d\n", busqueda_binaria(arreglo, tamanio, buscarNumero, 0));
+    }else{
+        printf(ANSI_COLOR_RED"\n¡El valor no existe en el arreglo!\n"ANSI_COLOR_RESET);
+    }
 }
 
 int main(){
