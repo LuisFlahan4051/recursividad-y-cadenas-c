@@ -236,6 +236,7 @@ void programa5(){
     
     printf(ANSI_COLOR_MAGENTA "\nArreglo ordenado:\n" ANSI_COLOR_RESET);
     quickSort(arreglo,0,tamanio-1);
+    quickSort(arreglo,0,tamanio-1);
     impresion_arreglo_recursivo(arreglo, tamanio, 0);
     printf("\n");
 
